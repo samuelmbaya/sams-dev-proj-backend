@@ -10,6 +10,30 @@ const uri =
 
 app.use(express.json());
 
+/* ========================= CORS MIDDLEWARE ========================= */
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://sams-dev-proj.vercel.app',
+  'https://sams-dev-proj-git-main-samuelmbayas-projects.vercel.app',
+  'https://sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app'
+];
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  // Handle preflight requests
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+
+  next();
+});
+
 let client, db;
 
 async function connectToMongo() {
@@ -20,7 +44,6 @@ async function connectToMongo() {
 }
 
 /* ========================= USERS CRUD ========================= */
-
 // Get all users
 app.get("/users", async (req, res) => {
   try {
@@ -361,13 +384,12 @@ app.delete("/orders/:id", async (req, res) => {
 });
 
 /* ========================= START SERVER ========================= */
-
 connectToMongo()
   .then(() => {
     app.listen(port, "0.0.0.0", () => {
-      console.log(`🚀 Server running at http://0.0.0.0:${port}`);
+      console.log(`Server running at http://0.0.0.0:${port}`);
     });
   })
   .catch((err) => {
-    console.error("❌ Failed to connect to MongoDB:", err);
+    console.error("Failed to connect to MongoDB:", err);
   });
