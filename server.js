@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require("express");
-const cors = require("cors");
 const { MongoClient, ObjectId } = require("mongodb");
 
 const app = express();
@@ -10,17 +9,6 @@ const uri =
   "mongodb+srv://fishcmelly_db_user:lUWKKXnWelnHGeLB@developmnetproject.lqy9l4q.mongodb.net/DevSite?retryWrites=true&w=majority";
 
 app.use(express.json());
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'sams-dev-proj.vercel.app',
-    'sams-dev-proj-git-main-samuelmbayas-projects.vercel.app',
-    "sams-dev-proj-git-main-samuelmbayas-projects.vercel.app",
-    'sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app'
-  ],
-  credentials: true
-}));
 
 let client, db;
 
@@ -54,7 +42,7 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-// Create user (basic, optional for admin use)
+// Create user
 app.post("/users", async (req, res) => {
   try {
     const { name, email, password } = req.body;
