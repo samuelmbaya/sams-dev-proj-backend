@@ -16,7 +16,8 @@ app.use(cors({
     'http://localhost:3000',
     'sams-dev-proj.vercel.app',
     'sams-dev-proj-git-main-samuelmbayas-projects.vercel.app',
-    'sams-dev-proj-mcfb63ljk-samuelmbayas-projects.vercel.app'
+    "sams-dev-proj-git-main-samuelmbayas-projects.vercel.app",
+    'sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app'
   ],
   credentials: true
 }));
