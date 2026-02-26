@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 const uri =
   process.env.MONGODB_URI ||
-  "mongodb+srv://fishcmelly_db_user:lUWKKXnWelnHGeLB@developmnetproject.lqy9l4q.mongodb.net/DevSite?retryWrites=true&w=majority";
+  "mongodb+srv://devsamuel404_db_user:PAZFYKT116gkK0Zi@sneakerverse.q4bk4ny.mongodb.net/DevSite?retryWrites=true&w=majority";
 
 app.use(express.json());
 
@@ -21,18 +21,33 @@ const allowedOrigins = [
   "https://sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app",
 ];
 
-app.use(cors({
+const corsOptions = {
   origin: (origin, cb) => {
-    if (!origin) return cb(null, true);
+    if (!origin) return cb(null, true);                 // Postman / server-to-server
     if (allowedOrigins.includes(origin)) return cb(null, true);
-    return cb(null, false); // block silently
+    return cb(new Error("CORS blocked: " + origin));
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-}));
+};
 
-app.options("*", cors());
+app.use(cors(corsOptions));
+
+// ✅ IMPORTANT: preflight uses the same options (or you can omit this line entirely)
+app.options("*", cors(corsOptions));
+
+let client;
+let db;
+
+async function connectToMongo() {
+  if (db) return db; // already connected
+  client = new MongoClient(uri);
+  await client.connect();
+  db = client.db("SneakerVerse");
+  console.log("✅ Connected to MongoDB (SneakerVerse)");
+  return db;
+}
 
 /* ========================= USERS CRUD ========================= */
 // Get all users
