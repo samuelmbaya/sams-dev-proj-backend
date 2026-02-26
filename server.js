@@ -35,7 +35,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // ✅ IMPORTANT: preflight uses the same options (or you can omit this line entirely)
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 
 let client;
 let db;
