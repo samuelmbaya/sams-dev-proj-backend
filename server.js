@@ -11,37 +11,28 @@ const uri =
 app.use(express.json());
 
 /* ========================= CORS MIDDLEWARE ========================= */
+const cors = require("cors");
+
 const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
-  'https://sams-dev-proj.vercel.app',
-  'https://sams-dev-proj-git-main-samuelmbayas-projects.vercel.app',
-  'https://sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app'
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://sams-dev-proj.vercel.app",
+  "https://sams-dev-proj-git-main-samuelmbayas-projects.vercel.app",
+  "https://sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app",
 ];
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);
+    if (allowedOrigins.includes(origin)) return cb(null, true);
+    return cb(null, false); // block silently
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 
-  // Handle preflight requests
-  if (req.method === "OPTIONS") return res.sendStatus(200);
-
-  next();
-});
-
-let client, db;
-
-async function connectToMongo() {
-  client = new MongoClient(uri);
-  await client.connect();
-  db = client.db("SneakerVerse");
-  console.log("✅ Connected to MongoDB (SneakerVerse)");
-}
+app.options("*", cors());
 
 /* ========================= USERS CRUD ========================= */
 // Get all users
