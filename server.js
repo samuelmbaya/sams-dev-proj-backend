@@ -17,6 +17,7 @@ const allowedOrigins = [
   "https://sams-dev-proj.vercel.app",
   "https://sams-dev-proj-git-main-samuelmbayas-projects.vercel.app",
   "https://sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app",
+  "https://shoenationrsa.netlify.app",
 ];
 
 const corsOptions = {
