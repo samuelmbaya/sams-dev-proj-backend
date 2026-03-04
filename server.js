@@ -15,7 +15,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://sams-dev-proj.vercel.app",
-  "https://sams-dev-proj-git-main-samuelmbayas-projects.vercel.app",
+  "https://sams-dev-proj-git-main-samuelmbayas-projects.cvercel.app",
   "https://sams-dev-proj-er2q1po6e-samuelmbayas-projects.vercel.app",
   "https://shoenationrsa.netlify.app",
 ];
